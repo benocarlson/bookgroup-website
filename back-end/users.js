@@ -4,11 +4,18 @@ const argon2 = require("argon2");
 
 const router = express.Router();
 
+const books = require('./books.js');
+const Book = books.model;
+
 const userSchema = new mongoose.Schema({
   firstName: String,
   lastName: String,
   username: String,
   password: String,
+  favorites: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Book'
+  }]
 });
 
 userSchema.pre('save', async function(next) {
@@ -50,7 +57,7 @@ const validUser = async (req, res, next) => {
   try {
     const user = await User.findOne({
       _id: req.session.userID
-    });
+    }).populate('favorites');
     if (!user) {
       return res.status(403).send({
         message: "not logged in"
@@ -147,6 +154,47 @@ router.delete("/", validUser, async (req, res) => {
     return res.sendStatus(500);
   }
 });
+
+router.put("/fave/:id", validUser, async (req, res) => {
+  try {
+    let book = await Book.findOne({
+      _id: req.params.id
+    });
+    if (!book)
+      return res.status(404).send({
+        message: "Book not found!"
+      });
+    if (!req.user.favorites.includes(book)) {
+      req.user.favorites.push(book);
+      await req.user.save();
+    }
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+router.put("/unfave/:id", validUser, async (req, res) => {
+  try {
+    let book = await Book.findOne({
+      _id: req.params.id
+    });
+    if (!book)
+      return res.status(404).send({
+        message: "Book not found!"
+      });
+    if (req.user.favorites.includes(book)) {
+      let index = req.user.favorites.indexOf(book);
+      req.user.favorites.splice(index, 1);
+      await req.user.save();
+    }
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+})
 
 module.exports = {
   routes: router,
