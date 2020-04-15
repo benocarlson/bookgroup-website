@@ -26,6 +26,9 @@ import axios from 'axios';
 import GroupList from '@/components/GroupList.vue';
 export default {
   name: 'Groups',
+  components: {
+    GroupList
+  },
   data() {
     return {
       searchText: '',
@@ -51,6 +54,38 @@ export default {
       }
     }
   },
-
+  methods: {
+    async getGroups() {
+      try {
+        this.error = '';
+        this.response = await axios.get("/api/groups");
+        this.groups = this.response.data;
+      } catch (error) {
+        this.error = error.response.data.message;
+      }
+    },
+    setCreating() {
+      this.creating = true;
+    },
+    stopCreating() {
+      this.creating = false;
+      this.name = '';
+      this.description = '';
+    },
+    async create() {
+      try {
+        this.error = '';
+        await axios.post("/api/groups", {
+          name: this.name,
+          description: this.description
+        });
+        this.creating = false;
+        this.name = '';
+        this.description = '';
+      } catch (error) {
+        this.error = error.response.data.message;
+      }
+    }
+  }
 }
 </script>
