@@ -52,6 +52,16 @@ router.post("/", validUser, async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    let groups = Group.find();
+    return res.send(groups);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
 router.put("/join/:groupId", validUser, async (req, res) => {
   try {
     let group = await Group.findOne({
