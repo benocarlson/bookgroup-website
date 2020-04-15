@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Books from '../views/Books.vue'
+import Groups from '../views/Groups.vue'
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,10 @@ Vue.use(VueRouter)
   {
     path: '/books',
     component: Books
+  },
+  {
+    path: '/groups',
+    component: Groups
   }
 ]
 
