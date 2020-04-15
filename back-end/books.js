@@ -26,11 +26,16 @@ router.post("/", upload.single('book'), async (req, res) => {
       message: "Must include a picture of the cover!"
     });
   
+  if (!req.body.title)
+    return res.status(400).send({
+      message: "Book must have a title"
+    });
+  
   const book = new Book({
     title: req.body.title,
     author: req.body.author,
     description: req.body.description,
-    path: "/images/" + req.file.filename,
+    coverImagePath: "/images/books/" + req.file.filename,
   });
 
   try {

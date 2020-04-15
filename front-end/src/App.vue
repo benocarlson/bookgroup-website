@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <div id="header">
-      <img src="/images/logo.png" alt="logo"/>
+      <img id="logo" src="/images/logo.png" alt="logo"/>
       <h1>BookGroup</h1>
       <div id="nav">
-        <router-link to="/home">Home</router-link>
+        <router-link to="/">Home</router-link>
         <router-link to="/books">Books</router-link>
         <router-link to="/groups">Groups</router-link>
       </div>
@@ -25,6 +25,19 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+#nav {
+  width: 50%;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 #footer {

@@ -164,9 +164,12 @@ router.put("/fave/:id", validUser, async (req, res) => {
       return res.status(404).send({
         message: "Book not found!"
       });
-    if (!req.user.favorites.includes(book)) {
-      req.user.favorites.push(book);
-      await req.user.save();
+    let user = await User.findOne({
+      _id: req.user._id
+    })
+    if (!user.favorites.map(fave => fave._id).includes(book._id)) {
+      user.favorites.push(book);
+      await user.save();
     }
     return res.sendStatus(200);
   } catch (error) {
@@ -184,17 +187,20 @@ router.put("/unfave/:id", validUser, async (req, res) => {
       return res.status(404).send({
         message: "Book not found!"
       });
-    if (req.user.favorites.includes(book)) {
-      let index = req.user.favorites.indexOf(book);
-      req.user.favorites.splice(index, 1);
-      await req.user.save();
+    let user = await User.findOne({
+      _id: req.user._id
+    })
+    if (user.favorites.map(fave => fave._id).includes(book._id)) {
+      let index = user.favorites.indexOf(book);
+      user.favorites.splice(index, 1);
+      await user.save();
     }
     return res.sendStatus(200);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
-})
+});
 
 module.exports = {
   routes: router,

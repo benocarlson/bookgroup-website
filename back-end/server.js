@@ -34,4 +34,7 @@ app.use("/api/users", users.routes);
 const books = require("./books.js");
 app.use("/api/books", books.routes);
 
+const groups = require("./groups.js");
+app.use("/api/groups", groups.routes);
+
 app.listen(3002, () => console.log('Server listening on port 3002!'));
