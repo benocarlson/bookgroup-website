@@ -1,10 +1,20 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="header">
+      <img src="/images/logo.png" alt="logo"/>
+      <h1>BookGroup</h1>
+      <div id="nav">
+        <router-link to="/home">Home</router-link>
+        <router-link to="/books">Books</router-link>
+        <router-link to="/groups">Groups</router-link>
+      </div>
     </div>
     <router-view/>
+    <div id="footer">
+      <a href='https://github.com/benocarlson/bookgroup-website'>
+        Visit the GitHub repository for this website
+      </a>
+    </div>
   </div>
 </template>
 
@@ -17,16 +27,28 @@
   color: #2c3e50;
 }
 
-#nav {
+#footer {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  border-top: 3px solid #111;
+  background: #FFF;
+  margin-top: 40px;
+}
+
+#footer a {
   padding: 30px;
+  border-radius: 10px;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+#footer a:link, #footer a:visited {
+  background: #999;
+  color: #000;
+  text-decoration: none;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+#footer a:hover, #footer a:visited:hover {
+  background: #666;
+  color: #000;
 }
 </style>

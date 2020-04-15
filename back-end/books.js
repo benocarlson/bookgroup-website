@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const multer = require('multer')
 const upload = multer({
-  dest: '../front-end/public/images/',
+  dest: '../front-end/public/images/books/',
   limits: {
     fileSize: 10000000
   }
