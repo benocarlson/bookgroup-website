@@ -82,10 +82,11 @@ export default {
         this.creating = false;
         this.name = '';
         this.description = '';
+        this.getGroups();
       } catch (error) {
         this.error = error.response.data.message;
       }
-    }
+    },
   }
 }
 </script>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Books from '../views/Books.vue'
 import Groups from '../views/Groups.vue'
+import Group from '../views/Group.vue'
 
 Vue.use(VueRouter)
 
@@ -19,6 +20,10 @@ Vue.use(VueRouter)
   {
     path: '/groups',
     component: Groups
+  },
+  {
+    path: '/groups/:id',
+    component: Group
   }
 ]
 

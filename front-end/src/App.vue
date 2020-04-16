@@ -40,6 +40,15 @@
   justify-content: space-evenly;
 }
 
+.error {
+  color: #b00;
+  border: 1px solid #b00;
+  border-radius: 3px;
+  padding: 3px 10px;
+  margin: 10px auto;
+  width: 500px;
+}
+
 #footer {
   display: flex;
   justify-content: center;

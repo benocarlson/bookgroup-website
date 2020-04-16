@@ -54,13 +54,56 @@ router.post("/", validUser, async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let groups = Group.find();
+    let groups = await Group.find();
     return res.send(groups);
   } catch (error) {
     console.log(error);
     return res.sendStatus(500);
   }
 });
+
+router.get("/:groupId", async (req, res) => {
+  try {
+    let group = await Group.findOne({
+      _id: req.params.groupId
+    }).populate('books');
+    if (!group) {
+      return res.status(404).send({
+        message: "Group not found!"
+      });
+    }
+    return res.send(group);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+});
+
+router.delete("/:groupId", validUser, async (req, res) => {
+  try {
+    let group = await Group.findOne({
+      _id: req.params.groupId
+    });
+    if (!group) {
+      return res.status(404).send({
+        message: "Group not found!"
+      });
+    }
+    let owner = await User.findOne({
+      _id: group.owner
+    });
+    if (!owner.equals(req.user)) {
+      return res.status(403).send({
+        message: "Only the owner can delete a group!"
+      });
+    }
+    await group.delete();
+    return res.sendStatus(200);
+  } catch (error) {
+    console.log(error);
+    return res.sendStatus(500);
+  }
+})
 
 router.put("/join/:groupId", validUser, async (req, res) => {
   try {
@@ -143,7 +186,7 @@ router.put("/remove/:groupId/:bookId", validUser, async (req, res) => {
     if (!group) return res.status(404).send({
       message: "Group not found!"
     });
-    if (group.owner !== req.user._id) {
+    if (group.owner.equals(req.user)) {
       return res.status(403).send({
         message: "Only the owner may remove books from a group!"
       });

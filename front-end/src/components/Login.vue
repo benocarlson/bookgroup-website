@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <form class="register-form">
+    <form class="inputs pure-form">
       <fieldset>
         <legend>Register with BookGroup</legend>
         <input placeholder="first name" v-model="firstName">
@@ -15,7 +15,7 @@
       </fieldset>
     </form>
     <p v-if="registerError" class='error'>{{registerError}}</p>
-    <form class="login-form">
+    <form class="inputs pure-form">
       <fieldset>
         <legend>Login</legend>
         <input placeholder="username" v-model="usernameLogin">
@@ -89,5 +89,22 @@ export default {
 </script>
 
 <style scoped>
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputs {
+  width: 75%;
+  border: 1px solid #777;
+  border-radius: 5px;
+  margin: 20px;
+}
+
+input {
+  margin: 10px;
+}
 
 </style>

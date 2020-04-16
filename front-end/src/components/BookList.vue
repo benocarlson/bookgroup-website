@@ -1,12 +1,14 @@
 <template>
   <div class="booklist">
     <p v-if="error" class="error">{{error}}</p>
-    <div class="book" v-for="book in books" :key="book._id">
-      <h2>{{book.title}}</h2>
-      <h3>by {{book.author}}</h3>
-      <img :src="book.coverImagePath" />
-      <p>{{book.description}}</p>
-      <p v-if="user"><a @click="toggleFave(book)"><i :class="'fas fa-star ' + faveStatus(book)"></i></a></p>
+    <div class="books">
+      <div class="book" v-for="book in books" :key="book._id">
+        <h2>{{book.title}}</h2>
+        <h3>by {{book.author}}</h3>
+        <img :src="book.coverImagePath" />
+        <p>{{book.description}}</p>
+        <p v-if="user"><a @click="toggleFave(book)"><i :class="'fas fa-star ' + faveStatus(book)"></i></a></p>
+      </div>
     </div>
   </div>
 </template>
