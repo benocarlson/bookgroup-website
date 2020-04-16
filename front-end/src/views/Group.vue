@@ -1,25 +1,27 @@
 <template>
-  <div>
+  <div class="group-view">
     <div class="header">
       <div class='info'>
-      <h1>{{group.name}}</h1>
-      <h3>{{group.description}}</h3>
+        <h2>{{group.name}}</h2>
+        <h3>{{group.description}}</h3>
       </div>
       <div v-if="isMember" class='member-controls'>
-        <button @click='setSharing'>Share a Book</button>
-        <button v-if="isAdmin" @click='deleteGroup'>Delete Group</button>
-        <button v-else @click='leave'>Leave Group</button>
+        <div class='tab' @click='setSharing'>Share a Book</div>
+        <div class='tab' v-if="isAdmin" @click='deleteGroup'>Delete Group</div>
+        <div class='tab' v-else @click='leave'>Leave Group</div>
       </div>
-      <button v-else @click='join'>Join Group</button>
+      <div class='tab' v-else @click='join'>Join Group</div>
     </div>
-    <div v-if="sharing" class="new-book">
-      <select class="select-book" v-model="selection">
-        <option v-for="book in books" :key="book._id" :value="book">{{book.title}}</option>
-      </select>
-      <button @click="stopSharing">Cancel</button>
-      <button @click="addBook">Share to Group</button>
+    <form v-if="sharing" class="new-book pure-form">
+      <fieldset>
+        <select class="select-book" v-model="selection">
+          <option v-for="book in books" :key="book._id" :value="book">{{book.title}}</option>
+        </select>
+        <button class="pure-button" type="button" @click="stopSharing">Cancel</button>
+        <button class="pure-button" type="submit" :disabled="!selection" @click.prevent="addBook">Share to Group</button>
+      </fieldset>
       <img v-if="selection" :src="selection.coverImagePath"/>
-    </div>
+    </form>
     <BookList :books='groupBooks'/>
   </div>
 </template>
@@ -101,6 +103,7 @@ export default {
       this.selection = '';
     },
     async addBook() {
+      if (!this.selection) return;
       try {
         await axios.put("/api/groups/add/" + this.group._id + "/" + this.selection._id);
         this.sharing = false;
@@ -113,3 +116,47 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+.group-view {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.member-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.new-book {
+  padding: 5px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #BBB;
+  border-radius: 10px;
+}
+
+.new-book button, .new-book select {
+  margin: 10px;
+}
+
+.info {
+  width: 50%;
+}
+
+.info h2, .info h3 {
+  width: 100%;
+}
+
+.new-book img {
+  max-width: 200px;
+  margin: 10px;
+}
+
+</style>

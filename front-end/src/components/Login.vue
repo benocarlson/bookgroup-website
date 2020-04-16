@@ -11,7 +11,7 @@
         <input type="password" placeholder="password" v-model="password">
       </fieldset>
       <fieldset>
-        <button type="submit" class="submit-register" @click.prevent="register">Register</button>
+        <button type="submit" class="pure-button" :disabled="disableRegister" @click.prevent="register">Register</button>
       </fieldset>
     </form>
     <p v-if="registerError" class='error'>{{registerError}}</p>
@@ -22,7 +22,7 @@
         <input type="password" placeholder="password" v-model="passwordLogin">
       </fieldset>
       <fieldset>
-        <button type="submit" class="submit-login" @click.prevent="login">Login</button>
+        <button type="submit" class="pure-button" :disabled="disableLogin" @click.prevent="login">Login</button>
       </fieldset>
     </form>
     <p v-if="loginError" class="error">{{loginError}}</p>
@@ -43,6 +43,14 @@ export default {
       passwordLogin: '',
       registerError: '',
       loginError: '',
+    }
+  },
+  computed: {
+    disableRegister() {
+      return !this.firstName || !this.lastName || !this.username || !this.password;
+    },
+    disableLogin() {
+      return !this.usernameLogin || !this.passwordLogin;
     }
   },
   methods: {

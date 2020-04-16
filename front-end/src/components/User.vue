@@ -2,16 +2,14 @@
   <div class="user-view">
     <div class="header">
       <h2>{{user.firstName}} {{user.lastName}}</h2>
-      <div class="sub-nav">
-        <div class="tab" @click="showFaves">
-          Favorites
-        </div>
-        <div class="tab" @click="showGroups">
-          My Groups
-        </div>
-        <div class="tab" @click="logout">
-          Log Out
-        </div>
+      <div class="tab" @click="showFaves">
+        Favorites
+      </div>
+      <div class="tab" @click="showGroups">
+        My Groups
+      </div>
+      <div class="tab" @click="logout">
+        Log Out
       </div>
     </div>
     <p class='error' v-if="error">{{error}}</p>
@@ -36,10 +34,14 @@ export default {
     BookList,
     GroupList
   },
+  created() {
+    this.refresh();
+  },
   data() {
     return {
       showing: 'faves',
-      error: ''
+      error: '',
+      allGroups: []
     }
   },
   computed: {
@@ -50,7 +52,7 @@ export default {
       return this.$root.$data.user.favorites;
     },
     groups() {
-      return [];
+      return this.allGroups.filter(group => group.members.includes(this.$root.$data.user._id));
     }
   },
   methods: {
@@ -58,6 +60,8 @@ export default {
       try {
         let response = await axios.get('/api/users');
         this.$root.$data.user = response.data.user;
+        let gresponse = await axios.get('/api/groups');
+        this.allGroups = gresponse.data;
       } catch (error) {
         this.error = error.response.data.message;
       }

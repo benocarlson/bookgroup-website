@@ -24,7 +24,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #000;
+  background: #CCCCEE
 }
 
 #header {
@@ -34,10 +35,21 @@
   margin: 20px;
 }
 
+h1 {
+  font-size: 3em;
+  margin-left: 10px;
+}
+
 #nav {
   width: 50%;
   display: flex;
   justify-content: space-evenly;
+}
+
+#nav a, #nav a:visited {
+  color: #008;
+  padding: 10px;
+  background: #BBBBEE;
 }
 
 .error {
@@ -49,12 +61,44 @@
   width: 500px;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  background: #88C;
+  color: #000;
+  align-items: center;
+  width: 100%;
+}
+
+.header h2 {
+  font-size: 2em;
+}
+
+.header h2, .header h3 {
+  width: 50%;
+  margin-left: 20px;
+  text-align: left;
+}
+
+.tab {
+  margin-right: 20px;
+  background: #57a;
+  border: 1px solid #458;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.tab:hover {
+  background: #458;
+  cursor: pointer;
+}
+
 #footer {
   display: flex;
   justify-content: center;
   padding: 20px;
   border-top: 3px solid #111;
-  background: #FFF;
+  background: #88C;
   margin-top: 40px;
 }
 
@@ -64,13 +108,13 @@
 }
 
 #footer a:link, #footer a:visited {
-  background: #999;
+  background: #57a;
   color: #000;
   text-decoration: none;
 }
 
 #footer a:hover, #footer a:visited:hover {
-  background: #666;
+  background: #458;
   color: #000;
 }
 </style>

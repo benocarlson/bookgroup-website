@@ -3,11 +3,12 @@
     <p v-if="error" class="error">{{error}}</p>
     <div class="books">
       <div class="book" v-for="book in books" :key="book._id">
-        <h2>{{book.title}}</h2>
+        <div class="title">
+        <h2>{{book.title}}</h2><a v-if="user" class="favorindicator" @click="toggleFave(book)"> <i :class="'fas fa-star ' + faveStatus(book)"></i></a>
+        </div>
         <h3>by {{book.author}}</h3>
         <img :src="book.coverImagePath" />
         <p>{{book.description}}</p>
-        <p v-if="user"><a @click="toggleFave(book)"><i :class="'fas fa-star ' + faveStatus(book)"></i></a></p>
       </div>
     </div>
   </div>
@@ -34,10 +35,8 @@ export default {
     async toggleFave(book) {
       try {
         if (!this.$root.$data.user.favorites.map(fave => fave._id).includes(book._id)) {
-          console.log("add fave");
           await axios.put("/api/users/fave/" + book._id);
         } else {
-          console.log("remove fave");
           await axios.put("/api/users/unfave/" + book._id);
         }
       } catch (error) {
@@ -58,6 +57,11 @@ export default {
 </script>
 
 <style scoped>
+
+.booklist {
+  width: 100%;
+}
+
 .fave {
   color: gold;
 }
@@ -67,6 +71,36 @@ export default {
 }
 
 .book img {
-  max-width: 500px;
+  max-width: 70%;
 }
+
+.books {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.book {
+  width: 40%;
+  margin: 4%;
+  background: #aac;
+  border-radius: 10px;
+}
+
+.title {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.favorindicator {
+  background: #229;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.favorindicator:hover {
+  background: #669;
+  cursor: pointer;
+}
+
 </style>

@@ -28,3 +28,30 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.groups {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: left;
+}
+
+.group {
+  border-bottom: 1px solid #000;
+  text-align: left;
+}
+
+.group:first {
+  border-top: 1px solid #000;
+}
+
+.group:hover {
+  background: #bbe;
+}
+
+.group h2, .group p {
+  margin-left: 20px;
+}
+</style>
